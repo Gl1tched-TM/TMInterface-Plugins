@@ -25,14 +25,12 @@ void changesteercolor() {
     if (currentMode == colorMode[0] and customColors) {
         bool rainbow = false;
         if (currentSteer > 0 or kbright and !kbleft) {
-            log("steering right");
-            colorChanger.Content = "steer_color " + Math::Abs(right.x) + "," + Math::Abs(right.y) + "," + Math::Abs(right.z);
+            ExecuteCommand("steer_color " + Math::Abs(right.x) + "," + Math::Abs(right.y) + "," + Math::Abs(right.z), ExecuteCommandFlags::SuppressOutput);
         } else if (currentSteer < 0 or kbleft and !kbright){
-            log("steering left");
-            colorChanger.Content = "steer_color " + Math::Abs(left.x) + "," + Math::Abs(left.y) + "," + Math::Abs(left.z);
+            ExecuteCommand("steer_color " + Math::Abs(left.x) + "," + Math::Abs(left.y) + "," + Math::Abs(left.z), ExecuteCommandFlags::SuppressOutput);
         }
     } else if (currentMode == colorMode[1]) {
-        colorChanger.Content = "steer_color " + Math::Abs(right.x) + "," + Math::Abs(right.y) + "," + Math::Abs(right.z);
+        ExecuteCommand("steer_color " + Math::Abs(right.x) + "," + Math::Abs(right.y) + "," + Math::Abs(right.z), ExecuteCommandFlags::SuppressOutput);
     } else {
         return;
     }
@@ -100,6 +98,7 @@ void Render(SimulationManager@ simManager)
     changesteercolor();
     if (rainbow and customColors) {
         loopcolors();
+    
     }
 }
 
@@ -156,7 +155,7 @@ PluginInfo@ GetPluginInfo()
     auto info = PluginInfo();
     info.Name = "Custom Input Colors";
     info.Author = "Gl1tch3D";
-    info.Version = "v1.1.0";
+    info.Version = "v2.0.0";
     info.Description = "Adds Multi-Color to the Input Display.";
     return info;
 }
