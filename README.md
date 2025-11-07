@@ -33,6 +33,6 @@ This plugin adds multi-color to your input display.
 
 This can be found in the Settings tab in the TMInterface console.
 
-**WARNING:** This plugin will flood your console with log commands atm, only use if you don't mind.
+**Console flooding fixed!**
 
 ![image](https://github.com/user-attachments/assets/f02ffef8-5d51-4d3d-9348-3e44dc6521f9)
