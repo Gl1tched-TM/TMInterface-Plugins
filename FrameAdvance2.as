@@ -1,8 +1,30 @@
-// Documentation available at https://donadigo.com/tminterface/plugins/api
 array<SimulationState@> states;
 
 int nextframe;
 int stateNum;
+int reverse_frame;
+
+CommandList@ CurrentList = null;
+void OnCommandListChanged(CommandList@ prev, CommandList@ current, CommandListChangeReason reason)
+{
+    @CurrentList = @current;
+}
+
+void ForceReloadCurrentList()
+{
+    if (@CurrentList !is null) {
+        CommandList@ clonedList = null;
+        if (!CurrentList.Filename.IsEmpty()) {
+            @clonedList = CommandList(CurrentList.Filename);
+        } else {
+            @clonedList = CommandList();
+        }
+
+        clonedList.Content = CurrentList.Content;
+        clonedList.Process(CommandListProcessOption::OnlyParse);
+        SetCurrentCommandList(clonedList);
+    }
+}
 
 void OnRunStep(SimulationManager@ simManager)
 {
@@ -30,16 +52,20 @@ void Render()
         if (UI::Button("Forward",vec2(0,25))) {
             GetSimulationManager().SetSpeed(.2);
             nextframe = 1;
+            ForceReloadCurrentList();
 
         }
         UI::SameLine();
         if (UI::Button("Backward",vec2(0,25))) {
             if (stateNum > 1) {
+                simManager.SetSpeed(0);
                 stateNum -= 2;
                 simManager.RewindToState(states[stateNum], false);
+                ForceReloadCurrentList();
             }
             
         }
+    
     }  
     UI::End();
 }
@@ -47,6 +73,9 @@ void Render()
 void Main()
 {
     log("Plugin started.");
+    RegisterVariable("reverse_frame",2);
+    reverse_frame = uint(Math::Max(2, int(GetVariableDouble("reverse_frame"))));
+    SetVariable("reverse_frame", reverse_frame);
 }
 
 void OnDisabled()
