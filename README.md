@@ -36,3 +36,15 @@ This can be found in the Settings tab in the TMInterface console.
 **Console flooding fixed!**
 
 ![image](https://github.com/user-attachments/assets/f02ffef8-5d51-4d3d-9348-3e44dc6521f9)
+
+
+
+# Frame Advance 2
+
+Allows you to go forward by one frame (0.01s) and go back, functionality is not 100% consistent yet.
+
+
+
+# State Holder
+
+Removes the hassle of constantly putting back the load_state command into your input file when constantly using incremental or bruteforce.
